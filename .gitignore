@@ -3,3 +3,4 @@ tecacademy.db
 tecacademy.db-shm
 tecacademy.db-wal
 backend/obj/
+backend/logs/

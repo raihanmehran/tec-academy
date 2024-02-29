@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace backend.Controllers
 {
@@ -31,13 +32,17 @@ namespace backend.Controllers
 
             if (!result) return Unauthorized(new ProblemDetails { Title = "Invalid Password" });
 
-            return new UserDto
+            var userDto = new UserDto
             {
                 UserName = user.UserName,
                 Country = user.Country,
                 DateOfBirth = user.DateOfBirth.ToString(),
                 Token = await _tokenRepository.CreateToken(user),
             };
+
+            Log.Information("Login info => {@userDto}", userDto);
+
+            return userDto;
         }
 
         [HttpPost("register")]
